@@ -8,7 +8,7 @@ set -o errexit
 # - https://bitbucket.org/logilab/pylint/issues/58
 # - 
 
-find vaxrank test -name '*.py' \
+find test -name '*.py' \
   | xargs pylint \
   --errors-only \
   --disable=print-statement,unsubscriptable-object,not-an-iterable,no-member
