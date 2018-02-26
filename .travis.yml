@@ -16,10 +16,7 @@ cache:
   # along with the indexed db of intervals and ID mappings and pickles
   # of sequence dictionaries; vaxrank directory containing FM index of reference kmers
   directories:
-    - $HOME/.cache/pyensembl/
     - $HOME/.cache/pyensembl/GRCh38/ensembl87/
-    - $HOME/.cache/pyensembl/GRCm38/ensembl87/
-    - $HOME/.cache/vaxrank
 before_install:
   - |
     if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
@@ -44,7 +41,7 @@ before_install:
 env:
   global:
     # MHC_BUNDLE_PASS
-    - secure: "X3FwUdvnhxDbHOfxSjMgJg8N4WSGcmQL7Nl7B/oWQUBico1n6H8JlOtrN9mLU+AfB+bAuZjonPaGakB5j9imZfHwyKbOtIbbXzvPMJBNpdlq6ongaAIMFVMr4963hOn+KEJqNmmeCF/AEPqQxFXQRYJKPNoxP8kp/lX391CQrxeH0NPSUZUFR5huQzElYSRNFug805u/0hdAQTyFRl9cIFxb+4zHxzd+roCrY6DNb24igBGz2/ArQRBJf/iPVRZEE3nKPYGRDXepnIyRaGVetaEM/k8FYR87oBkyyIXCTWLDIP1KwvoN8Uo94ODUyL/Hv2LjE7oF3fV1lwX6u6U5yN+girjlrfdgBiCkLPlxcBsZ7uGAepz+aD76Omhz2r3dyAjJMTBwoufRLPFNUumY7YK8TqB6DZFU9mu8DVTpzjMjrsMicV5NaSzSA/CKswwyCqu3U3OaHTEpwExuFKyAFMolQKTct2HpAqkQoLxHq8Jp0bfxz+xFsUC4akx5UXUsPBjgQEB27QaC0plJoHLj9gm/2bJWYUEmoOmpcu/dyZLaGBoPUH25MqYc8IJ+jdLnoOaEZDU5O8F32Ky9W4C8OFakz6ABhCsmD1JblnEJMJuNBiCA56QjYeuMIO3ilPwXXz/N/kyxCPVgwKRouqNZ9PlapB3agdy1m5Bn+wOvuaM="
+    - secure: "qPfWOfJwchKfOb0GQ5xft0rubFWBom9rggTaYRvgQiD5MsKLnY4SIqFnCvsz7tnF9h7hXNhq59iKarHVIZyZSgyfckgBR9V+juDpmDHuo8hZw7m4FxK7M2YfkNiGXjgv/5UZWSd29KWwiEt2C7ghsE2zuI0EKhREoYj2HSBPGYdmqDATD7yTzIa9lXjEQNh3Y7t0ElLNv+jK9fUjm6mfF9U2X9A3/qp/IO6mZtHlMdj1vfLvQqwAyuobThAHVcWc5S8gcK2Y9VMCtSO3XMh+69KAb7AugLMAR3EkCAhnW50evJx6r8Lkygnl65nklQo/F1AS1pb51lkZYoyK0OyeLZlVZgEFA4/hXNQp1AnjnzNlnYM/Ny1Nj5BfM4Kdaa1GLVxz+Ap34jTt3y4/7mVHvkg9R5kOTPHzonH1iyZ0Op3kYhewY9Ax+HReRywoezjKyqu7RITKTLKu8Y5AvYwNgkfi7dRQQfd+4SWv5cYp6zbgJLMDGACJJ081a/XpajTr/biyH9aWt1gC4ZRvBDosKGUuaX/HJdU6PDI6jauWg9alurV/szsxk4bQLpax8rlvXFv+i4E2SemjzQKoY7KdBKlCgOZkefgVHWv19XbGIcM0PNFH5nVzvccbe2k3KA1dgqbblsBn4yQM9889DRAHnDLH41VE5ux4KCKPHWnEYb0="
     - KERAS_BACKEND=tensorflow
 addons:
   apt:
@@ -58,7 +55,6 @@ install:
   - source activate test-environment
   - pip install pypandoc
   - pip install -r requirements.txt
-  - pip install .
   - pip install coveralls
 before_script:
   - pyensembl install --release 87 --species mouse
@@ -67,12 +63,4 @@ script:
   - nosetests -sv test -a '!skip'
 after_success:
   coveralls
-deploy:
-  provider: pypi
-  distributions: sdist
-  user: openvax
-  password: # See http://docs.travis-ci.com/user/encryption-keys/
-    secure: "kt07TyCxiumbu2SGZvl7J5LLzsLq0zxcCceOSGb4RE0tFOmiUmDv5LfGKME5lEFhPxleChaq/AILDOudEZO3H9xJY90/dXPgyXJOd6pCOzKq3zIKEjz3MEx3wBizcjR7ucHxYxDQzIBEBeoC4wTIc53mBR5gMgqyG8Dbciueg9Yo5qZED9rq/uY1ELxW2iQsS9LBK7n/blTPTisdmdG3g64eVEDsZD/0egPdupWhlkNuUQlA4LVr2KUifGrtXPL0A/m3CUEABJWre7PJ6motFS1KramP7/PQJwpXmZEHI1ayknNeN2ndMp4Ni64cEhtF/JIRYWBuGxzZXSuIv1g8XxKijm/qxSc4Gv0yIiP/Q3pZ5hfSC1RZhcpkc3ugCSOy5VwlF5O0P/EflMnsUE9ZRFON3s5+yjsJtNldsCRpdEsquFPn0BJC4kOdWKfIkYuhln6xcJawl+8uKlCJuOa1vZcsJ16E6RPN3TpkfChaMVBrD6zEbYZfrI5QCMV/uwkwutgV4H95FR0TlnDrOTwAMamxFBN7R8+YEHff9n21c4i7vzjBVlI16W/t2qqmaG/0w1hBhAiYvvV5BLh84km5gSewcjcKjBHVhYscF1Xxyq0CPmKdcOB6ePFbIWh/+NHQzDpzY8yKp9kzkZizZJGUAxsI2ZH3++BzQwcSUn664VY="
-  on:
-    branch: master
-    condition: $TRAVIS_PYTHON_VERSION = "2.7"
+
