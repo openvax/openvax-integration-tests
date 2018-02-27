@@ -16,7 +16,7 @@ cache:
   # along with the indexed db of intervals and ID mappings and pickles
   # of sequence dictionaries; vaxrank directory containing FM index of reference kmers
   directories:
-    - $HOME/.cache/pyensembl/GRCh38/ensembl87/
+    - $HOME/.cache/pyensembl/GRCm38/ensembl87/
     - $HOME/downloads
 before_install:
   - |
