@@ -17,14 +17,25 @@ cache:
   # of sequence dictionaries; vaxrank directory containing FM index of reference kmers
   directories:
     - $HOME/.cache/pyensembl/GRCh38/ensembl87/
+    - $HOME/downloads
 before_install:
   - |
-    if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      wget https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh;
+    if [ -d $HOME/downloads ]; then
+      echo "downloads dir already exists"
     else
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+      mkdir $HOME/downloads
     fi
-  - bash miniconda.sh -b -p $HOME/miniconda
+  - |
+    if [ -f $HOME/downloads/miniconda.sh ]; then
+      echo "already downloaded mini-conda"
+    else
+      if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+        wget https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O $HOME/downloads/miniconda.sh;
+      else
+        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $HOME/downloads/miniconda.sh;
+      fi
+    fi
+  - bash $HOME/downloads/miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   # reset the shell's lookup table for program name to path mappings
   - hash -r
@@ -57,6 +68,8 @@ install:
   - pip install -r requirements.txt
   - pip install coveralls
 before_script:
+  - mhcflurry-downloads fetch models_class1_minimal
+  - export MHCFLURRY_DEFAULT_CLASS1_MODELS=$(mhcflurry-downloads path models_class1_minimal)/models
   - pyensembl install --release 87 --species mouse
 script:
   - ./lint.sh
