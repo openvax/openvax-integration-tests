@@ -77,6 +77,11 @@ before_script:
     --species human
     --release 93
     --custom-mirror https://github.com/openvax/ensembl-data/releases/download/GRCh38.93/
+  - >
+    pyensembl install
+    --species mouse
+    --release 93
+    --custom-mirror https://github.com/openvax/ensembl-data/releases/download/GRCm38.93/
 script:
   - >
     nosetests -sv test -a '!skip' &&
